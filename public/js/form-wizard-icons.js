@@ -89,7 +89,9 @@ $(function () {
     }
     if (wizardIconsVerticalBtnSubmit) {
       wizardIconsVerticalBtnSubmit.addEventListener('click', event => {
-        alert('Submitted..!!');
+        $('#form_trans').attr('action', '/dashboard/transaksi');
+
+        $('#form_trans').submit();
       });
     }
   }
@@ -132,6 +134,7 @@ $(function () {
   // --------------------------------------------------------------------
   const wizardIconsModernVertical = document.querySelector('.wizard-modern-vertical-icons-example');
 
+
   if (typeof wizardIconsModernVertical !== undefined && wizardIconsModernVertical !== null) {
     const wizardIconsModernVerticalBtnNextList = [].slice.call(wizardIconsModernVertical.querySelectorAll('.btn-next')),
       wizardIconsModernVerticalBtnPrevList = [].slice.call(wizardIconsModernVertical.querySelectorAll('.btn-prev')),
@@ -157,7 +160,10 @@ $(function () {
     }
     if (wizardIconsModernVerticalBtnSubmit) {
       wizardIconsModernVerticalBtnSubmit.addEventListener('click', event => {
-        alert('Submitted..!!');
+        $('#form_trans').attr('method', 'POST');
+        $('#form_trans').attr('action', '/dashboard/transaction/store');
+
+        $('#form_trans').submit();
       });
     }
   }

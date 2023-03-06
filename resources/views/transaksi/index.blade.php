@@ -30,6 +30,7 @@
                         <th>Diskon</th>
                         <th>Total Bayar</th>
                         <th>Keterangan</th>
+                        <th>Action</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -48,7 +49,7 @@
                         <td>{{ $item->status_bayar }}</td>
                         <td>{{ $item->diskon }}</td>
                         <td>{{ $item->total_bayar }}</td>
-                        <td>{{ $item->keterangan }}</td> 
+                        <td>{{ $item->keterangan }}</td>
                         <td>
                            <div class="dropdown">
                               <button type="button" class="btn p-0 dropdown-toggle hide-arrow">
@@ -119,4 +120,3 @@
          </script>
       </x-slot>
    </x-app-layout>
-   

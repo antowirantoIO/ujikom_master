@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Layanan;
 use App\Models\Konsumen;
 use App\Models\Transaksi;
+use Illuminate\Http\Request;
 use App\Models\StatusPesanan;
 use App\Models\JenisPembayaran;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
 
@@ -17,6 +19,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
+
         $transaksi = Transaksi::all();
 
         return view('transaksi.index',compact('transaksi'));
@@ -39,9 +42,27 @@ class TransaksiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransaksiRequest $request)
+    public function store(Request $request)
     {
-        //
+        Transaksi::create([
+            'konsumen_id' => $request->konsumen_id,
+            'petugas_id' => Auth::user()->id,
+            'layanan_id' => $request->layanan_id,
+            'jenis_pembayaran_id' => $request->jenis_pembayaran_id,
+            'status_pesanan_id' => StatusPesanan::where('nama', 'BARU')->first()->id,
+            'no_invoice' => $request->no_invoice,
+            'berat' => $request->berat,
+            'tanggal_masuk' => $request->tanggal_masuk,
+            'tanggal_keluar' => $request->tanggal_keluar,
+            'status_bayar' => $request->status_bayar,
+            'diskon' => $request->diskon,
+            'total_bayar' => $request->total_bayar,
+            'keterangan' => json_encode([
+                'hutang' => $request->hutang,
+            ])
+        ]);
+
+        return redirect(route('transaksi.index'));
     }
 
     /**
@@ -63,7 +84,7 @@ class TransaksiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
+    public function update(Request $request, Transaksi $transaksi)
     {
         //
     }

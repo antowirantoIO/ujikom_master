@@ -23,10 +23,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function () {
 
     require_once "pages/petugas.php";
     require_once "pages/konsumen.php";
-    require_once "pages/layanan.php";   
-    require_once "pages/pembayaran.php";   
-    require_once "pages/status.php";   
-    require_once "pages/transaksi.php";   
+    require_once "pages/layanan.php";
+    require_once "pages/pembayaran.php";
+    require_once "pages/status.php";
+    require_once "pages/transaksi.php";
+    require_once "pages/laporan.php";
 });
 
 Route::middleware('auth')->group(function () {
