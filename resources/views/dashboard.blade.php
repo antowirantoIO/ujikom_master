@@ -18,7 +18,7 @@
                       <div class="col-7">
                         <div class="card-body text-nowrap">
                           <h5 class="card-title mb-0">Selamat Datang {{ explode(" ", Auth::user()->name)[0] }}! 🎉</h5>
-                          <p class="mb-2">{{ date('d/m/Y - H:i') }}</p>
+                          <p class="mb-2">{{ date('d/m/Y') }}</p>
                           <a href="javascript:;" class="btn btn-primary">Lihat Transaksi</a>
                         </div>
                       </div>
@@ -53,7 +53,7 @@
                               <i class="ti ti-chart-pie-2 ti-sm"></i>
                             </div>
                             <div class="card-info">
-                              <h5 class="mb-0">230</h5>
+                              <h5 class="mb-0">{{ $konsumen }}</h5>
                               <small>Konsumen</small>
                             </div>
                           </div>
@@ -64,7 +64,7 @@
                               <i class="ti ti-users ti-sm"></i>
                             </div>
                             <div class="card-info">
-                              <h5 class="mb-0">208</h5>
+                              <h5 class="mb-0">{{ $status['BARU'] }}</h5>
                               <small>Orderan Baru</small>
                             </div>
                           </div>
@@ -75,7 +75,7 @@
                               <i class="ti ti-shopping-cart ti-sm"></i>
                             </div>
                             <div class="card-info">
-                              <h5 class="mb-0">120</h5>
+                              <h5 class="mb-0">{{ $status['DIPROSES'] }}</h5>
                               <small>Orderan Proses</small>
                             </div>
                           </div>
@@ -86,7 +86,7 @@
                               <i class="ti ti-currency-dollar ti-sm"></i>
                             </div>
                             <div class="card-info">
-                              <h5 class="mb-0">300</h5>
+                              <h5 class="mb-0">{{ $status['SELESAI'] }}</h5>
                               <small>Orderan Selesai</small>
                             </div>
                           </div>
@@ -103,14 +103,11 @@
                     <div class="col-xl-6 mb-4 col-md-3 col-6">
                       <div class="card">
                         <div class="card-header pb-0">
-                          <h5 class="card-title mb-0">Rp. 320.000</h5>
-                          <small class="text-muted">Mingguan</small>
+                          <h5 class="card-title mb-0">{{ number_format($income_today) }}</h5>
+                          <small class="text-muted">Harian</small>
                         </div>
                         <div class="card-body">
-                          <div class="mt-md-2 text-center mt-lg-3 mt-3">
-                            <small class="text-muted mt-3">120.000 pendapatan lebih dari minggu lalu</small>
-                          </div>
-                        </div>
+                            </div>
                       </div>
                     </div>
                     <!--/ Expenses -->
@@ -119,13 +116,10 @@
                     <div class="col-xl-6 mb-4 col-md-3 col-6">
                         <div class="card">
                             <div class="card-header pb-0">
-                                <h5 class="card-title mb-0">Rp. 920.000</h5>
+                                <h5 class="card-title mb-0">{{ number_format($income_month) }}</h5>
                                 <small class="text-muted">Bulanan</small>
                             </div>
                             <div class="card-body">
-                                <div class="mt-md-2 text-center mt-lg-3 mt-3">
-                                    <small class="text-muted mt-3">120.000 pendapatan lebih dari bulan lalu</small>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,31 +159,8 @@
                     </div>
                     <div class="card-body">
                       <div class="row row-bordered g-0">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                           <div id="totalRevenueChart"></div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="text-center mt-4">
-                            <div class="dropdown">
-                              <button
-                                class="btn btn-sm btn-outline-primary"
-                                type="button"
-                                id="budgetId"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                              >
-                                <script>
-                                  document.write(new Date().getFullYear());
-                                </script>
-                              </button>
-                            </div>
-                          </div>
-                          <h3 class="text-center pt-4 mb-0">$25,825</h3>
-                          <p class="mb-4 text-center"><span class="fw-semibold">Budget: </span>56,800</p>
-                          <div class="px-3">
-                            <div id="budgetChart"></div>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -199,6 +170,14 @@
               </div>
             </div>
 
+            @php
+                function _tanggal($tanggal)
+                {
+                    $bulan = ['Januari', 'Ferbuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                    return $bulan[(int) $tanggal];
+                }
+            @endphp
+
             <x-slot name="vendor_js">
                 <script src="{{ asset('') }}vendor/libs/apex-charts/apexcharts.js"></script>
         <script src="{{ asset('') }}vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
@@ -207,6 +186,31 @@
                 <script src="{{ asset('') }}js/dashboards-ecommerce.js"></script>
 
                 <script>
+                    
+                    function number_format(number, decimals, dec_point, thousands_sep) {
+                    // *     example: number_format(1234.56, 2, ',', ' ');
+                    // *     return: '1 234,56'
+                        number = (number + '').replace(',', '').replace(' ', '');
+                        var n = !isFinite(+number) ? 0 : +number,
+                                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                                s = '',
+                                toFixedFix = function (n, prec) {
+                                    var k = Math.pow(10, prec);
+                                    return '' + Math.round(n * k) / k;
+                                };
+                        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+                        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+                        if (s[0].length > 3) {
+                            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+                        }
+                        if ((s[1] || '').length < prec) {
+                            s[1] = s[1] || '';
+                            s[1] += new Array(prec - s[1].length + 1).join('0');
+                        }
+                        return s.join(dec);
+                    }
 
                     $('document').ready(function(){
                         let cardColor, labelColor, headingColor, borderColor, legendColor;
@@ -230,18 +234,15 @@
                                 series: [
                                     {
                                         name: 'Earning',
-                                        data: [270, 210, 180, 200, 250, 280, 250, 270, 150]
+                                        data: [
+                                            <?php foreach ($chart_data as $value) {
+                                                echo $value->total . ', ';
+                                            } ?>
+                                        ]
                                     }
                                 ],
                                 chart: {
-                                    height: 365,
-                                    parentHeightOffset: 0,
-                                    stacked: true,
                                     type: 'bar',
-                                    toolbar: { show: false }
-                                },
-                                tooltip: {
-                                    enabled: false
                                 },
                                 plotOptions: {
                                     bar: {
@@ -255,12 +256,6 @@
                                 colors: [config.colors.primary, config.colors.warning],
                                 dataLabels: {
                                     enabled: false
-                                },
-                                stroke: {
-                                    curve: 'smooth',
-                                    width: 6,
-                                    lineCap: 'round',
-                                    colors: [cardColor]
                                 },
                                 legend: {
                                     show: true,
@@ -289,7 +284,11 @@
                                     }
                                 },
                                 xaxis: {
-                                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                                    categories: [
+                                        <?php foreach ($chart_data as $value) {
+                                            echo '"' . _tanggal($value->month) . '",';
+                                        } ?>
+                                    ],
                                     labels: {
                                         style: {
                                             fontSize: '13px',
@@ -311,119 +310,12 @@
                                             fontSize: '13px',
                                             colors: labelColor,
                                             fontFamily: 'Public Sans'
+                                        },
+                                        formatter: function (value) {
+                                            return 'RP. ' + number_format(value);
                                         }
-                                    },
-                                    max: 300,
-                                    tickAmount: 5
+                                    }
                                 },
-                                responsive: [
-                                    {
-                                        breakpoint: 1700,
-                                        options: {
-                                            plotOptions: {
-                                                bar: {
-                                                    columnWidth: '43%'
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 1441,
-                                        options: {
-                                            plotOptions: {
-                                                bar: {
-                                                    columnWidth: '52%'
-                                                }
-                                            },
-                                            chart: {
-                                                height: 375
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 1300,
-                                        options: {
-                                            plotOptions: {
-                                                bar: {
-                                                    columnWidth: '62%'
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 1025,
-                                        options: {
-                                            plotOptions: {
-                                                bar: {
-                                                    columnWidth: '70%'
-                                                }
-                                            },
-                                            chart: {
-                                                height: 390
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 991,
-                                        options: {
-                                            plotOptions: {
-                                                bar: {
-                                                    columnWidth: '38%'
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 850,
-                                        options: {
-                                            plotOptions: {
-                                                bar: {
-                                                    columnWidth: '48%'
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 449,
-                                        options: {
-                                            plotOptions: {
-                                                bar: {
-                                                    columnWidth: '70%'
-                                                }
-                                            },
-                                            chart: {
-                                                height: 360
-                                            },
-                                            xaxis: {
-                                                labels: {
-                                                    offsetY: -5
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 394,
-                                        options: {
-                                            plotOptions: {
-                                                bar: {
-                                                    columnWidth: '88%'
-                                                }
-                                            }
-                                        }
-                                    }
-                                ],
-                                states: {
-                                    hover: {
-                                        filter: {
-                                            type: 'none'
-                                        }
-                                    },
-                                    active: {
-                                        filter: {
-                                            type: 'none'
-                                        }
-                                    }
-                                }
                             };
                         if (typeof totalRevenueChartEl !== undefined && totalRevenueChartEl !== null) {
                             const totalRevenueChart = new ApexCharts(totalRevenueChartEl, totalRevenueChartOptions);

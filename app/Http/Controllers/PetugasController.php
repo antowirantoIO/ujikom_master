@@ -13,7 +13,7 @@ class PetugasController extends Controller
      */
     public function index()
     {
-        $petugas = User::all();
+        $petugas = User::role('petugas')->get();
         return view('petugas.index', compact('petugas'));
     }
 

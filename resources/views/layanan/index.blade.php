@@ -32,8 +32,8 @@
                           <td>{{ $item->nama }}</td>
                           <td>{{ $item->jenis }}</td>
                           <td>{{ 'Rp. ' . number_format($item->harga) }}</td>
-                          <td>{{ $item->lama_hari }}</td>
                           <td>{{ $item->satuan }}</td>
+                          <td>{{ $item->lama_hari }}</td>
                           <td>
                              <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="true">

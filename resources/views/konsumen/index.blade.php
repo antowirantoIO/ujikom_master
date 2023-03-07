@@ -31,7 +31,7 @@
                        <tr>
                           <td class="text-center">{{ $loop->iteration }}</td>
                           <td>{{ $item->kode_konsumen }}</td>
-                          <td>{{ $item->name }}</td>
+                          <td>{{ $item->nama }}</td>
                           <td>{{ $item->email }}</td>
                           <td>{{ $item->alamat }}</td>
                           <td>{{ $item->telephone }}</td>
@@ -232,7 +232,7 @@
            <script>
               var dt_konsumen_table = $('.dt-konsumen')
               dt_konsumen_table.dataTable();
-
+              $('#kode_konsumen').val('KSMN-' + "{{ date('Y') }}" + Math.floor(Math.random() * 1000) + 1);
               function updatekonsumen(id){
                         $.ajax({
                               url : `/dashboard/konsumen/${id}`,

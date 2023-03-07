@@ -49,66 +49,75 @@
              </a>
           </li>
           <!-- Apps & Pages -->
+          @hasanyrole('administrator')
           <li class="menu-header small text-uppercase">
              <span class="menu-header-text">Data Reference</span>
           </li>
-          <li class="menu-item {{ (request()->segment(2) == 'layanan') ? 'active' : '' }}">
-             <a href="{{ route('layanan.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-augmented-reality"></i>
-                <div>Layanan Laundry</div>
-             </a>
-          </li>
+          @endhasanyrole
+          @hasrole('administrator')
+            <li class="menu-item {{ (request()->segment(2) == 'layanan') ? 'active' : '' }}">
+                <a href="{{ route('layanan.index') }}" class="menu-link">
+                   <i class="menu-icon tf-icons ti ti-augmented-reality"></i>
+                   <div>Layanan Laundry</div>
+                </a>
+             </li>
+          @endhasrole
+          @hasrole('administrator')
           <li class="menu-item {{ (request()->segment(2) == 'pembayaran') ? 'active' : '' }}">
              <a href="{{ route('pembayaran.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-wallet"></i>
                 <div>Tipe pembayaran</div>
              </a>
           </li>
+          @endhasrole
+          @hasrole('administrator')
           <li class="menu-item {{ (request()->segment(2) == 'status') ? 'active' : '' }}">
              <a href="{{ route('status.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-truck-loading"></i>
                 <div>Status Pesanan</div>
              </a>
           </li>
+          @endhasrole
+          @hasanyrole('administrator|petugas')
           <li class="menu-header small text-uppercase">
              <span class="menu-header-text">Data User</span>
           </li>
+          @endhasanyrole
+          @hasrole('administrator')
           <li class="menu-item {{ (request()->segment(2) == 'petugas') ? 'active' : '' }}">
              <a href="{{ route('petugas.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-user-check"></i>
                 <div>Petugas</div>
              </a>
           </li>
+          @endhasrole
+          @hasanyrole('administrator|petugas')
           <li class="menu-item {{ (request()->segment(2) == 'konsumen') ? 'active' : '' }}">
              <a href="{{ route('konsumen.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div>Konsumen</div>
              </a>
           </li>
+          @endhasanyrole
           <li class="menu-header small text-uppercase">
              <span class="menu-header-text">Portal</span>
           </li>
+          @hasanyrole('administrator|petugas')
           <li class="menu-item {{ (request()->segment(2) == 'transaksi') ? 'active' : '' }}">
              <a href="{{ route('transaksi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-receipt-2"></i>
                 <div>Transaksi</div>
              </a>
           </li>
+          @endhasanyrole
+          @hasanyrole('administrator|pimpinan')
           <li class="menu-item {{ (request()->segment(2) == 'laporan') ? 'active' : '' }}">
              <a href="{{ route('laporan.transaksi') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-report-money"></i>
                 <div>Laporan Transaksi</div>
              </a>
           </li>
-          <li class="menu-item">
-             <a
-                href="#"
-                class="menu-link"
-                >
-                <i class="menu-icon tf-icons ti ti-file-description"></i>
-                <div>Laporan Keuangan</div>
-             </a>
-          </li>
+          @endhasanyrole
        </ul>
     </aside>
  </div>

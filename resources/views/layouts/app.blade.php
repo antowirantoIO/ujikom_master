@@ -32,6 +32,29 @@
     <link rel="stylesheet" href="{{ asset('') }}css/demo.css" />
     <link rel="stylesheet" href="{{ asset('') }}vendor/libs/sweetalert2/sweetalert2.css" />
 
+    <style>
+      @media print {
+         aside {
+           display: none;
+         }
+         #layout-navbar {
+          display: none;
+         }
+         .footer {
+          display: none;
+         }
+         .invoice-actions {
+          display: none;
+         }
+         .content-wrapper{
+
+         }
+         .layout-page{
+
+         }
+      }
+    </style>
+
     <!-- Vendors CSS -->
     {{ $vendor_css ?? '' }}
 
@@ -53,14 +76,18 @@
       <div class="layout-container">
         <!-- Menu -->
 
+        @auth
         <x-nav-menu />
+        @endauth
         <!-- / Menu -->
 
         <!-- Layout container -->
         <div class="layout-page">
           <!-- Navbar -->
-
+          @auth
           <x-navbar />
+          @endauth
+          
 
           <!-- / Navbar -->
 
@@ -82,26 +109,7 @@
                     <script>
                       document.write(new Date().getFullYear());
                     </script>
-                    , made with ❤️ by <a href="https://pixinvent.com" target="_blank" class="fw-semibold">Pixinvent</a>
-                  </div>
-                  <div>
-                    <a href="https://themeforest.net/licenses/standard" class="footer-link me-4" target="_blank"
-                      >License</a
-                    >
-                    <a href="https://1.envato.market/pixinvent_portfolio" target="_blank" class="footer-link me-4"
-                      >More Themes</a
-                    >
-
-                    <a
-                      href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/"
-                      target="_blank"
-                      class="footer-link me-4"
-                      >Documentation</a
-                    >
-
-                    <a href="https://pixinvent.ticksy.com/" target="_blank" class="footer-link d-none d-sm-inline-block"
-                      >Support</a
-                    >
+                    , made with ❤️ by <a href="#" class="fw-semibold">Anto Wiranto</a>
                   </div>
                 </div>
               </div>

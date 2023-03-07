@@ -7,7 +7,7 @@
               <div class="card-header">
                  <h4>Management Data Petugas</h4>
                  <div class="card-header-action">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createPetugas">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#petugasModal">
                     Tambah Data
                     </button>
                  </div>
@@ -261,7 +261,7 @@
                               }
                         })
                     }
-
+                    $('#kod_user').val('PTGS-' + "{{ date('Y') }}" + Math.floor(Math.random() * 1000) + 1);
             function deletePetugas(id){
                   Swal.fire({
                         title: 'Are you sure?',

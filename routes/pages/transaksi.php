@@ -9,6 +9,7 @@ Route::controller(TransaksiController::class)->group(function () {
     ], function () {
 
         Route::get("/", "index")->name("transaksi.index");
+        Route::get("/invoice", "printInvoice")->name("transaksi.printInvoice");
         Route::get("/create", "create")->name('transaksi.create');
         Route::post("/", "store")->name("transaksi.store");
         Route::get("/{transaksi}", "show")->name("transaksi.show");

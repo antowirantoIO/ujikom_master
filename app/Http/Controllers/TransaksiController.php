@@ -21,8 +21,9 @@ class TransaksiController extends Controller
     {
 
         $transaksi = Transaksi::all();
+        $status = StatusPesanan::all();
 
-        return view('transaksi.index',compact('transaksi'));
+        return view('transaksi.index',compact('transaksi', 'status'));
     }
 
     /**
@@ -37,6 +38,13 @@ class TransaksiController extends Controller
 
         return view('transaksi.create', compact('konsumen', 'layanan', 'status', 'pembayaran'));
 
+    }
+
+    public function printInvoice(Request $request)
+    {
+        return view('transaksi.invoice', [
+            'invoice' => Transaksi::where('no_invoice', $request->no_invoice)->first()
+        ]);
     }
 
     /**
@@ -58,7 +66,7 @@ class TransaksiController extends Controller
             'diskon' => $request->diskon,
             'total_bayar' => $request->total_bayar,
             'keterangan' => json_encode([
-                'hutang' => $request->hutang,
+                'hutang' => $request->status_bayar == 1 ? $request->hutang : $request->total_bayar,
             ])
         ]);
 
@@ -86,7 +94,19 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, Transaksi $transaksi)
     {
-        //
+        if($request->status_pesanan_id != 'Pilih Status Pesanan'){
+            $transaksi->status_pesanan_id = $request->status_pesanan_id;
+        }
+        if($request->status_bayar != 'Pilih Status Bayar'){
+            $transaksi->status_bayar = $request->status_bayar;
+            $transaksi->keterangan = json_encode([
+                'hutang' => "0"
+            ]);
+        }
+        $transaksi->save();
+
+        return redirect()->route('transaksi.index')
+            ->with('success', 'Transaksi updated successfully');
     }
 
     /**
@@ -94,6 +114,9 @@ class TransaksiController extends Controller
      */
     public function destroy(Transaksi $transaksi)
     {
-        //
+        $transaksi->delete();
+
+        return redirect()->route('transaksi.index')
+            ->with('success', 'Transaksi updated successfully');
     }
 }
